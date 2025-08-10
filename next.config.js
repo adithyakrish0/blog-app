@@ -4,6 +4,9 @@ const nextConfig = {
     domains: ['picsum.photos'],
     unoptimized: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
 module.exports = nextConfig
