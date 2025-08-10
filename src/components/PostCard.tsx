@@ -4,7 +4,7 @@ import { Post } from '@/lib/api';
 export default function PostCard({ post }: { post: Post }) {
   return (
     <article className="post-card">
-      <Link href={/posts/}>
+      <Link href="/posts/">
         <div className="post-image" style={{ height: '180px' }}>
           <img 
             src={post.imageUrl} 
