@@ -13,8 +13,11 @@ async function getPost(id: string) {
   }
 }
 
-export default async function PostPage({ params }: { params: { id: string } }) {
-  const post = await getPost(params.id);
+export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {
+  // Await the params promise
+  const { id } = await params;
+  
+  const post = await getPost(id);
   
   if (!post) {
     notFound();
