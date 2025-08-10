@@ -1,16 +1,18 @@
+// src/components/PostContent.tsx
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { fetchPostById, Post } from '@/lib/api';
+import { fetchPostBySlug, Post } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function PostContent({ initialPost }: { initialPost: Post }) {
   const router = useRouter();
   
   const { data: post, isLoading, error } = useQuery<Post>({
-    queryKey: ['post', initialPost.id],
-    queryFn: () => fetchPostById(initialPost.id),
+    queryKey: ['post', initialPost.slug],
+    queryFn: () => fetchPostBySlug(initialPost.slug),
     initialData: initialPost,
   });
 
@@ -49,22 +51,21 @@ export default function PostContent({ initialPost }: { initialPost: Post }) {
           </div>
           <h1 className="text-4xl font-bold mb-4 leading-tight">{post?.title}</h1>
           <div className="flex flex-wrap justify-center items-center text-gray-600 mb-6">
-            <span className="mr-4">By {post?.author}</span>
-            <time dateTime={post?.date}>{formatDate(post?.date || '')}</time>
+            <span className="mr-4">By {post?.author.name}</span>
+            <time dateTime={post?.publishedAt}>{formatDate(post?.publishedAt || '')}</time>
             <span className="mx-2"></span>
-            <span>{post?.readTime} min read</span>
+            <span>{post?.readTime} read</span>
           </div>
         </header>
         
         <figure className="mb-8">
           <div className="h-64 md:h-96 rounded-xl overflow-hidden">
-            <img 
-              src={post?.imageUrl || ''} 
-              alt={post?.title || ''}
+            <Image 
+              src={post?.heroImage.src || ''} 
+              alt={post?.heroImage.alt || ''}
+              fill
               style={{ 
                 objectFit: 'cover',
-                width: '100%',
-                height: '100%'
               }}
             />
           </div>

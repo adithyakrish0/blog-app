@@ -1,31 +1,53 @@
-'use client';
+import React from 'react';
 
-export default function Header() {
+const Header = () => {
   return (
-    <header className="site-header">
-      <div className="logo">
-        <div className="logo-icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+    <header className="nav-bar" style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      fontSize: '16px',
+      fontWeight: '600',
+      marginBottom: '40px', /* More spacing */
+      paddingBottom: '16px',
+      borderBottom: '1px solid var(--divider-color)'
+    }}>
+      <div className="logo" style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px' /* More spacing */
+      }}>
+        <div className="logo-icon" style={{
+          background: 'var(--navy)', /* Navy background */
+          color: '#fff',
+          borderRadius: '50%',
+          width: '40px', /* Larger */
+          height: '40px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '18px',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)' /* Subtle shadow */
+        }}>
+          ↑
         </div>
-        <span>Beyond UI</span>
+        <span style={{fontSize: '20px', fontWeight: '700'}}>Beyond UI</span>
       </div>
-      
-      <nav aria-label="Main Navigation">
-        <ul className="nav-links">
-          <li><a href="/" className="focus-ring">Homepage</a></li>
-          <li><a href="/about" className="focus-ring">About us</a></li>
-          <li><a href="/features" className="focus-ring">Features</a></li>
-          <li><a href="/blog" className="focus-ring">Blog</a></li>
-          <li><a href="/contact" className="focus-ring">Contact us</a></li>
-        </ul>
+      <nav className="nav-links" style={{
+        display: 'flex',
+        gap: '24px', /* More spacing */
+        alignItems: 'center'
+      }}>
+        <a href="#" style={{fontSize: '15px'}}>Homepage</a>
+        <a href="#" style={{fontSize: '15px'}}>About us</a>
+        <a href="#" style={{fontSize: '15px'}}>Features</a>
+        <a href="#" style={{fontSize: '15px'}}>Blog</a>
+        <a href="#" style={{fontSize: '15px'}}>Contact us</a>
+        <button className="btn-secondary">Demo</button>
+        <button className="btn-primary">Get Started</button>
       </nav>
-      
-      <div className="actions">
-        <a href="/demo" className="btn btn-outline focus-ring">Demo</a>
-        <a href="/get-started" className="btn btn-primary focus-ring">Get Started</a>
-      </div>
     </header>
   );
-}
+};
+
+export default Header;

@@ -1,5 +1,25 @@
 import Link from 'next/link';
+"use client";  // Add this at the top
 
+import React from 'react';
+import Link from 'next/link';
+
+const Navigation = () => {
+  return (
+    <nav>
+      <ul>
+        <li 
+          onMouseEnter={() => console.log('Enter')}
+          onMouseLeave={() => console.log('Leave')}
+        >
+          <Link href="/">Home</Link>
+        </li>
+      </ul>
+    </nav>
+  );
+};
+
+export default Navigation;
 export default function Navigation() {
   return (
     <header className="site-header" role="banner" aria-label="Top Navigation">

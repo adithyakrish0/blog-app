@@ -1,58 +1,91 @@
-import axios from 'axios';
-import { mockPosts } from './mockData';
-
-// Define the Post type
-export type Post = {
+// src/lib/api.ts
+export interface Post {
   id: string;
   title: string;
-  content: string;
-  excerpt: string;
-  author: string;
-  date: string;
+  slug: string;
   category: string;
-  imageUrl: string;
-  readTime: number;
-};
+  heroImage: {
+    src: string;
+    alt: string;
+  };
+  thumbnail: string;
+  excerpt: string;
+  content: string;
+  author: {
+    name: string;
+    avatar: string;
+  };
+  readTime: string;
+  publishedAt: string;
+  tags: string[];
+}
 
-// For development, use mock data
-const useMockData = process.env.NODE_ENV === 'development';
-
-const apiClient = axios.create({
-  baseURL: 'https://mockapi.io/posts', // Replace with your actual mock API URL
-});
-
-export const fetchPosts = async (): Promise<Post[]> => {
-  if (useMockData) {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return mockPosts;
-  }
-  
+// Mock API function to fetch posts
+export async function fetchPosts(): Promise<Post[]> {
   try {
-    const response = await apiClient.get('/');
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching posts:', error);
-    return [];
-  }
-};
-
-export const fetchPostById = async (id: string): Promise<Post> => {
-  if (useMockData) {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 300));
-    const post = mockPosts.find(p => p.id === id);
-    if (!post) {
-      throw new Error('Post not found');
+    // In a real app, you would fetch from an actual API
+    // For now, we'll use mock data
+    const response = await fetch('https://mockapi.io/posts');
+    if (!response.ok) {
+      throw new Error('Failed to fetch posts');
     }
-    return post;
-  }
-  
-  try {
-    const response = await apiClient.get(`/${id}`);
-    return response.data;
+    return await response.json();
   } catch (error) {
-    console.error('Error fetching post:', error);
-    throw new Error('Post not found');
+    // Fallback mock data if API fails
+    return [
+      {
+        id: 'post-001',
+        title: 'Unlocking Business Efficiency with SaaS Solutions',
+        slug: 'unlocking-business-efficiency-with-saas-solutions',
+        category: 'Business',
+        heroImage: {
+          src: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80',
+          alt: 'Open office with people at desks'
+        },
+        thumbnail: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=200&q=80',
+        excerpt: 'A short intro to how SaaS improves operations and productivity with examples and best practices.',
+        content: 'Next.js is a React framework that enables server-side rendering and static site generation...',
+        author: {
+          name: 'Jennifer Taylor',
+          avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=100&q=80'
+        },
+        readTime: '3 min',
+        publishedAt: '2025-06-01',
+        tags: ['SaaS','UI','UX']
+      },
+      // Add more mock posts as needed
+    ];
   }
-};
+}
+
+export async function fetchPostBySlug(slug: string): Promise<Post> {
+  try {
+    const response = await fetch(`https://mockapi.io/posts/${slug}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch post');
+    }
+    return await response.json();
+  } catch (error) {
+    // Fallback mock data if API fails
+    return {
+      id: 'post-001',
+      title: 'Unlocking Business Efficiency with SaaS Solutions',
+      slug: 'unlocking-business-efficiency-with-saas-solutions',
+      category: 'Business',
+      heroImage: {
+        src: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80',
+        alt: 'Open office with people at desks'
+      },
+      thumbnail: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=200&q=80',
+      excerpt: 'A short intro to how SaaS improves operations and productivity with examples and best practices.',
+      content: 'Next.js is a React framework that enables server-side rendering and static site generation...',
+      author: {
+        name: 'Jennifer Taylor',
+        avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=100&q=80'
+      },
+      readTime: '3 min',
+      publishedAt: '2025-06-01',
+      tags: ['SaaS','UI','UX']
+    };
+  }
+}

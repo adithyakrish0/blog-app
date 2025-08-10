@@ -1,26 +1,22 @@
-import './globals.css'
-import { Inter } from 'next/font/google'
-import Providers from '@/components/Providers'
-
-const inter = Inter({ subsets: ['latin'] })
+import React from 'react';
+import MainLayout from '@/components/MainLayout';
+import './globals.css';
 
 export const metadata = {
-  title: 'Blog — Beyond UI',
-  description: 'A modern blog built with Next.js',
-}
+  title: 'Beyond UI Blog',
+  description: 'A modern blog about UI/UX design and SaaS solutions',
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Providers>
-          {children}
-        </Providers>
+      <body>
+        <MainLayout>{children}</MainLayout>
       </body>
     </html>
-  )
+  );
 }

@@ -7,14 +7,15 @@ import PostCard from './PostCard';
 import SearchBar from './SearchBar';
 import { useState, useEffect } from 'react';
 
-export default function PostList() {
+export default function PostList({ initialPosts }: { initialPosts: Post[] }) {
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>(initialPosts);
+  const [searchTerm, setSearchTerm] = useState('');
+  
   const { data: posts, isLoading, error } = useQuery<Post[]>({
     queryKey: ['posts'],
     queryFn: fetchPosts,
+    initialData: initialPosts,
   });
-
-  const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     if (posts) {
@@ -24,8 +25,7 @@ export default function PostList() {
         const filtered = posts.filter(
           (post) =>
             post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            post.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
             post.category.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredPosts(filtered);
@@ -33,27 +33,33 @@ export default function PostList() {
     }
   }, [posts, searchTerm]);
 
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
-  };
-
-  if (isLoading) return <div className="text-center py-12">Loading posts...</div>;
-  if (error) return <div className="text-center py-12 text-red-500">Error loading posts</div>;
-
   return (
-    <>
-      <SearchBar onSearch={handleSearch} />
-      {filteredPosts.length === 0 ? (
+    <div className="post-list">
+      <div className="mb-8">
+        <SearchBar />
+        {searchTerm && (
+          <p className="mt-2 text-gray-600">
+            Showing {filteredPosts.length} results for "{searchTerm}"
+          </p>
+        )}
+      </div>
+      
+      {isLoading ? (
+        <div className="text-center py-12">Loading posts...</div>
+      ) : error ? (
+        <div className="text-center py-12 text-red-500">Error loading posts</div>
+      ) : filteredPosts.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">No posts found matching your search.</p>
+          <h3 className="text-xl font-semibold mb-2">No posts found</h3>
+          <p className="text-gray-600">Try a different search term</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+        <div className="post-grid">
           {filteredPosts.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 }

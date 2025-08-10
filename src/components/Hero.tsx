@@ -1,4 +1,6 @@
+// src/components/Hero.tsx
 import Link from "next/link";
+import Image from "next/image";
 import { Post } from "@/lib/api";
 
 export default function Hero({ post }: { post: Post | undefined }) {
@@ -10,17 +12,17 @@ export default function Hero({ post }: { post: Post | undefined }) {
 
   return (
     <article className="hero">
-      <Link href={`/posts/${post.id}`}>
+      <Link href={`/posts/${post.slug}`}>
         <div className="relative">
           <div className="hero-image" style={{ height: "360px" }}>
-            <img 
-              src={post.imageUrl} 
-              alt={post.title}
+            <Image 
+              src={post.heroImage.src} 
+              alt={post.heroImage.alt}
+              fill
               style={{ 
                 objectFit: "cover",
-                width: "100%",
-                height: "100%"
               }}
+              priority
             />
           </div>
           <div className="hero-overlay">

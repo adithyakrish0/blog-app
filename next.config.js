@@ -1,11 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['picsum.photos'],
-    unoptimized: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
+    domains: ['images.unsplash.com', 'picsum.photos'],
+    formats: ['image/webp', 'image/avif'],
   },
 }
 

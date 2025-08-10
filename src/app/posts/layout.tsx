@@ -1,9 +1,22 @@
-import '../globals.css'
+import React from 'react';
+import MainLayout from '@/components/MainLayout';
+import './globals.css';
 
-export default function PostsLayout({
+export const metadata = {
+  title: 'Beyond UI Blog',
+  description: 'A modern blog about UI/UX design and SaaS solutions',
+};
+
+export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  return children
+  return (
+    <html lang="en">
+      <body>
+        <MainLayout>{children}</MainLayout>
+      </body>
+    </html>
+  );
 }

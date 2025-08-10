@@ -1,16 +1,17 @@
-import { ReactNode } from 'react';
+import React from 'react';
+import Header from './Header';
+import HeroAndSidebar from './HeroAndSidebar';
+import RecentPosts from './RecentPosts';
 
-interface MainLayoutProps {
-  children: ReactNode;
-}
-
-export default function MainLayout({ children }: MainLayoutProps) {
+const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="app-canvas">
+    <div className="container">
+      <Header />
+      <HeroAndSidebar />
+      <RecentPosts />
       {children}
-      <footer className="footer">
-        <p> {new Date().getFullYear()} Next.js Blog. All rights reserved.</p>
-      </footer>
     </div>
   );
-}
+};
+
+export default MainLayout;
