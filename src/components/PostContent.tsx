@@ -33,7 +33,6 @@ export default function PostContent({ initialPost }: { initialPost: Post }) {
     </div>
   );
 
-  // Format date for better readability
   const formatDate = (dateString: string) => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
@@ -52,7 +51,7 @@ export default function PostContent({ initialPost }: { initialPost: Post }) {
           <div className="flex flex-wrap justify-center items-center text-gray-600 mb-6">
             <span className="mr-4">By {post?.author}</span>
             <time dateTime={post?.date}>{formatDate(post?.date || '')}</time>
-            <span className="mx-2">•</span>
+            <span className="mx-2"></span>
             <span>{post?.readTime} min read</span>
           </div>
         </header>

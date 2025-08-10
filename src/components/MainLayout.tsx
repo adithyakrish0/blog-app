@@ -9,7 +9,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
     <div className="app-canvas">
       {children}
       <footer className="footer">
-        <p>© {new Date().getFullYear()} Next.js Blog. All rights reserved.</p>
+        <p> {new Date().getFullYear()} Next.js Blog. All rights reserved.</p>
       </footer>
     </div>
   );

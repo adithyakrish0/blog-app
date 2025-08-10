@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Post } from '@/lib/api';
 
 export default function Hero({ post }: { post: Post | undefined }) {
@@ -11,16 +10,17 @@ export default function Hero({ post }: { post: Post | undefined }) {
 
   return (
     <article className="hero">
-      <Link href={`/posts/${post.id}`}>
+      <Link href={/posts/}>
         <div className="relative">
           <div className="hero-image" style={{ height: '360px' }}>
-            <Image 
+            <img 
               src={post.imageUrl} 
               alt={post.title}
-              fill
-              style={{ objectFit: 'cover' }}
-              priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              style={{ 
+                objectFit: 'cover',
+                width: '100%',
+                height: '100%'
+              }}
             />
           </div>
           <div className="hero-overlay">

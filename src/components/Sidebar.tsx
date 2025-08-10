@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Post } from '@/lib/api';
 
 export default function Sidebar({ posts }: { posts: Post[] }) {
@@ -14,14 +13,17 @@ export default function Sidebar({ posts }: { posts: Post[] }) {
           <ul className="sidebar-list">
             {posts.map((post) => (
               <li key={post.id} className="sidebar-item">
-                <Link href={`/posts/${post.id}`} className="focus-ring">
+                <Link href={/posts/} className="focus-ring">
                   <div className="sidebar-thumb">
-                    <Image 
+                    <img 
                       src={post.imageUrl} 
                       alt={post.title}
-                      width={56}
-                      height={56}
-                      style={{ objectFit: 'cover', borderRadius: '10px' }}
+                      style={{ 
+                        objectFit: 'cover',
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '10px'
+                      }}
                     />
                   </div>
                   <div className="sidebar-title">{post.title}</div>
