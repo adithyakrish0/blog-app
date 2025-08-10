@@ -1,55 +1,32 @@
-'use client';
-
-import { useQuery } from '@tanstack/react-query';
-import { fetchPosts, Post } from '@/lib/api';
+import { notFound } from 'next/navigation';
 import Header from '@/components/Header';
 import MainLayout from '@/components/MainLayout';
-import Hero from '@/components/Hero';
-import Sidebar from '@/components/Sidebar';
-import PostCard from '@/components/PostCard';
+import PostContent from '@/components/PostContent';
+import { fetchPostById } from '@/lib/api';
 
-export default function Home() {
-  const { data: posts, isLoading, error } = useQuery<Post[]>({
-    queryKey: ['posts'],
-    queryFn: fetchPosts,
-  });
+async function getPost(id: string) {
+  try {
+    const post = await fetchPostById(id);
+    return post;
+  } catch (error) {
+    notFound();
+  }
+}
 
-  // Get the first post for the hero
-  const heroPost = posts && posts.length > 0 ? posts[0] : undefined;
+export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {
+  // Await the params promise
+  const { id } = await params;
   
-  // Get the next 5 posts for the sidebar
-  const sidebarPosts = posts && posts.length > 1 ? posts.slice(1, 6) : [];
+  const post = await getPost(id);
   
-  // Get posts for the recent posts grid (skip the first 6 which are used in hero and sidebar)
-  const recentPosts = posts && posts.length > 6 ? posts.slice(6, 9) : [];
+  if (!post) {
+    notFound();
+  }
 
   return (
     <MainLayout>
       <Header />
-      
-      <div className="layout">
-        <div className="main-col">
-          <Hero post={heroPost} />
-          
-          <section className="recent-posts" aria-labelledby="recent-posts-heading">
-            <h2 id="recent-posts-heading">Recent Posts</h2>
-            
-            {recentPosts.length === 0 ? (
-              <div className="text-center py-8">No recent posts available</div>
-            ) : (
-              <div className="post-grid">
-                {recentPosts.map((post) => (
-                  <PostCard key={post.id} post={post} />
-                ))}
-              </div>
-            )}
-          </section>
-        </div>
-        
-        <div className="sidebar-col">
-          <Sidebar posts={sidebarPosts} />
-        </div>
-      </div>
+      <PostContent initialPost={post} />
     </MainLayout>
   );
 }

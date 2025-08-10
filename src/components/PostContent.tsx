@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchPostById, Post } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function PostContent({ initialPost }: { initialPost: Post }) {
   const router = useRouter();
@@ -59,13 +58,15 @@ export default function PostContent({ initialPost }: { initialPost: Post }) {
         </header>
         
         <figure className="mb-8">
-          <div className="relative h-64 md:h-96 rounded-xl overflow-hidden">
-            <Image 
+          <div className="h-64 md:h-96 rounded-xl overflow-hidden">
+            <img 
               src={post?.imageUrl || ''} 
               alt={post?.title || ''}
-              fill
-              style={{ objectFit: 'cover' }}
-              priority
+              style={{ 
+                objectFit: 'cover',
+                width: '100%',
+                height: '100%'
+              }}
             />
           </div>
         </figure>
