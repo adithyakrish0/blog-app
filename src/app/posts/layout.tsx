@@ -5,7 +5,7 @@ import Providers from '@/components/Providers'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Blog — Beyond UI',
+  title: 'Beyond UI - Blog',
   description: 'A modern blog built with Next.js',
 }
 
@@ -18,7 +18,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          {children}
+          <div className="site-shell">
+            {children}
+          </div>
         </Providers>
       </body>
     </html>
